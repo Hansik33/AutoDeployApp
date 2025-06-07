@@ -1,0 +1,14 @@
+[Unit]
+Description=Spring Petclinic Application
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/opt/spring-petclinic
+ExecStart=/usr/bin/java -jar /opt/spring-petclinic/target/{{ jar_file.files[0].path | basename }}
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

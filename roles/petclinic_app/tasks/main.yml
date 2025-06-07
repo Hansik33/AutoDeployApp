@@ -1,0 +1,39 @@
+---
+- name: Clone Spring Petclinic from GitHub
+  git:
+    repo: https://github.com/spring-projects/spring-petclinic.git
+    dest: /opt/spring-petclinic
+    version: main
+
+- name: Build Spring Petclinic with Maven
+  shell: mvn package
+  args:
+    chdir: /opt/spring-petclinic
+
+- name: Wait for target directory to be created
+  wait_for:
+    path: /opt/spring-petclinic/target
+    state: present
+    timeout: 60
+
+- name: Find the built jar file
+  find:
+    paths: /opt/spring-petclinic/target
+    patterns: "spring-petclinic-*.jar"
+    use_regex: no
+  register: jar_file
+
+- name: Copy systemd service file
+  template:
+    src: petclinic.service.j2
+    dest: /etc/systemd/system/petclinic.service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start Petclinic service
+  systemd:
+    name: petclinic
+    enabled: yes
+    state: restarted
