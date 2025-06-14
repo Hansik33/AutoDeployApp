@@ -1,0 +1,26 @@
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Copy NGINX reverse proxy config for Petclinic
+  template:
+    src: petclinic.conf.j2
+    dest: /etc/nginx/sites-available/petclinic
+    mode: "0644"
+  notify: restart nginx
+
+- name: Enable Petclinic site (symlink)
+  file:
+    src: /etc/nginx/sites-available/petclinic
+    dest: /etc/nginx/sites-enabled/petclinic
+    state: link
+    force: yes
+  notify: restart nginx
+
+- name: Remove default NGINX site (optional)
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
