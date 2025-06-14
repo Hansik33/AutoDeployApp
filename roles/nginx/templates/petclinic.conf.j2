@@ -1,6 +1,15 @@
 server {
     listen 80;
-    server_name {{ nginx_server_name | default('_') }};
+    server_name {{ nginx_server_name | default("_") }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ nginx_server_name | default("_") }};
+
+    ssl_certificate /etc/nginx/ssl/petclinic.crt;
+    ssl_certificate_key /etc/nginx/ssl/petclinic.key;
 
     location / {
         proxy_pass http://localhost:8080;
