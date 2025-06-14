@@ -24,3 +24,10 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: restart nginx
+
+- name: Add moja-klinika.local to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ nginx_server_name }}"
+    state: present
+  when: nginx_server_name is defined

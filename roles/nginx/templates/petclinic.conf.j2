@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name {{ nginx_server_name | default("_") }};
+    server_name {{ nginx_server_name | default('_') }};
 
     location / {
         proxy_pass http://localhost:8080;
