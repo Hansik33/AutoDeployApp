@@ -4,6 +4,7 @@
     repo: https://github.com/spring-projects/spring-petclinic.git
     dest: /opt/spring-petclinic
     version: main
+    force: yes
 
 - name: Build Spring Petclinic with Maven
   shell: mvn package

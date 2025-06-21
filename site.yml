@@ -6,3 +6,4 @@
     - petclinic_app
     - nginx
     - monitoring
+    - prometheus
