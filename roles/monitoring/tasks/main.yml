@@ -1,0 +1,52 @@
+---
+- name: Create system user for Node Exporter
+  user:
+    name: nodeusr
+    shell: /usr/sbin/nologin
+    system: yes
+    create_home: no
+
+- name: Download Node Exporter archive
+  get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
+    dest: /tmp/node_exporter.tar.gz
+
+- name: Extract Node Exporter archive
+  unarchive:
+    src: /tmp/node_exporter.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: Create symbolic link to node_exporter binary
+  file:
+    src: /opt/node_exporter-1.7.0.linux-amd64/node_exporter
+    dest: /usr/local/bin/node_exporter
+    state: link
+    force: yes
+
+- name: Create systemd service file for Node Exporter
+  copy:
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Prometheus Node Exporter
+      After=network.target
+
+      [Service]
+      User=nodeusr
+      ExecStart=/usr/local/bin/node_exporter \
+        --web.listen-address="0.0.0.0:9100" \
+        --web.disable-exporter-metrics
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd to apply changes
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start Node Exporter service
+  systemd:
+    name: node_exporter
+    enabled: yes
+    state: started
