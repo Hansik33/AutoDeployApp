@@ -13,8 +13,8 @@ Learn how to automate infrastructure setup and streamline deployment with simple
 - https://github.com/spring-projects/spring-petclinic
 ## Screenshots
 <div>
-<img src="https://i.imgur.com/xSViSyS.png" alt="screenshot" width="500"/>
-<img src="https://i.imgur.com/33ZMXm8.png" alt="screenshot" width="500"/>
-<img src="https://i.imgur.com/EEnFbev.png" alt="screenshot" width="500"/>
-<img src="https://i.imgur.com/OWGDdPK.png" alt="screenshot" width="500"/>
+<img src="https://i.imgur.com/xSViSyS.png" alt="screenshot" width="400"/>
+<img src="https://i.imgur.com/33ZMXm8.png" alt="screenshot" width="400"/>
+<img src="https://i.imgur.com/EEnFbev.png" alt="screenshot" width="400"/>
+<img src="https://i.imgur.com/OWGDdPK.png" alt="screenshot" width="400"/>
 </div>
